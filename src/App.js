@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import Container from '@mui/material/Container';
+import { useState, useEffect } from "react";
+import Navbar from './components/Navbar';
+import axios from 'axios';
 
-function App() {
+export default function App() {
+  const [products, setProducts] = useState([])
+
+  const getProducts = async () => {
+    const response = await axios.get('https://my-json-server.typicode.com/markushha/mockjs/products');
+    setProducts(response.data);
+  }
+
+  useEffect(() => {
+    getProducts();
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Navbar />
+    <Container maxWidth={"sm"}>
+      {products.map((product) => (
+        <div key={product.id}>{product.title}</div>
+      ))}
+    </Container>
+    </>
   );
 }
-
-export default App;
