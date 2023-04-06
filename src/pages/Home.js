@@ -122,7 +122,10 @@ export default function Home({ cart, setCart }) {
             if (skip === 0) return;
             setSkip(skip - 9)
           }}>Back</button>
-          <button className="skip-btn" onClick={() => setSkip(skip + 9)}>Next</button>
+          <button className="skip-btn" onClick={() => {
+              if (skip >= 18) return;
+              setSkip(skip + 9)}
+            }>Next</button>
         </div>
         <ToastContainer />
       </div>
