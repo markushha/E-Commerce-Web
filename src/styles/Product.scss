@@ -12,6 +12,16 @@
   padding: 20px;
   box-shadow: 0 0 10px 0 rgba(0,0,0,.1);
 
+  &__rating {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+
+    &__star {
+      font-size: 30px;
+    }
+}
+
   &__image {
     width: 150px;
     height: 150px;
@@ -50,7 +60,8 @@
   }
 
   &__price {
-    font-size: 20px;
+    font-size: 24px;
+    font-weight: 500;
     margin-top: 5px;
     text-align: center;
   }
