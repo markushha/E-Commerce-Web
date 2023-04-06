@@ -2,17 +2,20 @@ import { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../components/Navbar";
 import Product from "../components/Product";
+import Loading from "./Loading";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Home({ cart, setCart }) {
   const [products, setProducts] = useState([]);
+  const [skip, setSkip] = useState(0);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const showToast = ({ success }) => {
     if (success) {
       toast.success(`Succesfully added to cart`, {
-        position: "top-right",
+        position: "top-left",
         autoClose: 3000,
         hideProgressBar: true,
         closeOnClick: true,
@@ -24,7 +27,7 @@ export default function Home({ cart, setCart }) {
     }
     if (!success) {
       toast.error(`This item is already in your cart ;)`, {
-        position: "top-right",
+        position: "top-left",
         autoClose: 3000,
         hideProgressBar: true,
         closeOnClick: true,
@@ -38,11 +41,14 @@ export default function Home({ cart, setCart }) {
 
   const getProducts = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         "https://my-json-server.typicode.com/markushha/mockjs/products"
       );
-      setProducts(response.data);
+      setProducts(response.data.slice(skip, skip + 9));
+      setLoading(false);
     } catch (e) {
+      setLoading(false);
       alert(e);
     }
   };
@@ -61,7 +67,9 @@ export default function Home({ cart, setCart }) {
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [skip]);
+
+  if (loading) return <Loading />;
 
   return (
     <>
@@ -79,6 +87,7 @@ export default function Home({ cart, setCart }) {
         <label className="filter-label">Filter</label>
         <div className="select-wrapper">
           <select
+            
             onChange={(e) => {
               if (e.target.value === "low") {
                 setProducts(
@@ -87,7 +96,6 @@ export default function Home({ cart, setCart }) {
               }
 
               if (e.target.value === "high") {
-                console.log(1);
                 setProducts(
                   [...filteredProducts].sort((a, b) => b.price - a.price)
                 );
@@ -95,6 +103,7 @@ export default function Home({ cart, setCart }) {
             }}
             className="select"
           >
+            <option value="#">Without</option>
             <option value="low">Lowest Price</option>
             <option value="high">Highest Price</option>
           </select>
@@ -107,6 +116,13 @@ export default function Home({ cart, setCart }) {
               addProduct={addToCart}
             />
           ))}
+        </div>
+        <div className="flex m-auto items-center justify-center">
+          <button className="skip-btn" onClick={() => {
+            if (skip === 0) return;
+            setSkip(skip - 9)
+          }}>Back</button>
+          <button className="skip-btn" onClick={() => setSkip(skip + 9)}>Next</button>
         </div>
         <ToastContainer />
       </div>

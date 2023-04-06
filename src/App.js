@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 
+// fix description text overflow
+
 export default function App() {
   const [cart, setCart] = useState([]);
 

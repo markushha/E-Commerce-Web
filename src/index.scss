@@ -63,6 +63,9 @@ body {
 
 .select {
   outline: none;
+  height: 50px;
+  width: 190px;
+  cursor: pointer;
 }
 
 .filter-label {
@@ -70,4 +73,24 @@ body {
   font-size: 24px;
   margin-left: 20px;
   color: white;
+}
+
+.skip-btn {
+  margin: 20px 50px 0 0;
+  font-weight: 500;
+  padding: 10px 0px;
+  width: 220px;
+  height: 60px;
+  border: none;
+  border-radius: 10px;
+  background: #fff;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s ease all;
+
+  &:hover {
+    background: #333333;
+    color: #fff;
+  }
 }
