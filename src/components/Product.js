@@ -1,5 +1,6 @@
 import '../styles/Product.scss';
 import { useState } from 'react';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 
 function Product({ product, addProduct }) {
   const [showDescription, setShowDescription] = useState(false);
@@ -21,7 +22,7 @@ function Product({ product, addProduct }) {
         <p className='product__name'>{product.title}</p>
         <p className='product__price'>${product.price}</p>
         <button className='product__info__btn' onClick={addProductToCart}>Add to cart</button>
-        <button onClick={toggleDescription} className='product__info__btn'>{showDescription ? "Hide details" :"Show details"}</button>
+        <button onClick={toggleDescription} className='product__info__btn'>{showDescription ? "Hide details" : <p className='icon'><AiOutlineInfoCircle/></p>}</button>
         {showDescription && <p className='product__description'>{product.description}</p>}
       </div>
     </div>

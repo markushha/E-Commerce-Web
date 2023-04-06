@@ -1,14 +1,14 @@
-import Container from '@mui/material/Container';
 import { useState, useEffect } from "react";
-import Navbar from './components/Navbar';
-import axios from 'axios';
-import Product from './components/Product';
 import { toast, ToastContainer } from 'react-toastify';
+import Navbar from './components/Navbar';
+import Product from './components/Product';
+import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
+  const [search, setSearch] = useState('');
 
   const showToast = ({ title, success }) => {
     if (success) {
@@ -56,6 +56,10 @@ export default function App() {
     console.log(cart);
   }
 
+  const filteredProducts = products.filter((product) => {
+    return product.title.toLowerCase().includes(search.toLowerCase());
+  })
+
   useEffect(() => {
     getProducts();
   })
@@ -64,9 +68,20 @@ export default function App() {
     <>
     <Navbar />
     <div className='container'>
-      {products.map((product) => (
+      <form className="search">
+      <input 
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        type='text'
+        placeholder='Search'
+        className='search__bar'
+      />
+      </form>
+      <div className='product-wrapper'>
+      {filteredProducts.map((product) => (
         <Product key={product.id} product={product} addProduct={addToCart} />
       ))}
+      </div>
     <ToastContainer />
     </div>
     </>
