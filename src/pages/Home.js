@@ -5,7 +5,6 @@ import Product from "../components/Product";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
-
 export default function Home({ cart, setCart }) {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
@@ -62,7 +61,7 @@ export default function Home({ cart, setCart }) {
 
   useEffect(() => {
     getProducts();
-  });
+  }, []);
 
   return (
     <>
@@ -77,6 +76,29 @@ export default function Home({ cart, setCart }) {
             className="search__bar"
           />
         </form>
+        <label className="filter-label">Filter</label>
+        <div className="select-wrapper">
+          <select
+            onChange={(e) => {
+              if (e.target.value === "low") {
+                setProducts(
+                  [...filteredProducts].sort((a, b) => a.price - b.price)
+                );
+              }
+
+              if (e.target.value === "high") {
+                console.log(1);
+                setProducts(
+                  [...filteredProducts].sort((a, b) => b.price - a.price)
+                );
+              }
+            }}
+            className="select"
+          >
+            <option value="low">Lowest Price</option>
+            <option value="high">Highest Price</option>
+          </select>
+        </div>
         <div className="product-wrapper">
           {filteredProducts.map((product) => (
             <Product
